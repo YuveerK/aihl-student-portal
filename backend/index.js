@@ -29,8 +29,8 @@ app.listen(2000, () => {
   console.log("listening");
 });
 
-app.use(studentRoute);
-app.use(studentDocumentsRoute);
 app.use(coursesRoute);
+app.use(studentDocumentsRoute);
 app.use(modulesRoute);
 app.use(enrollmentsRoute);
+app.use(studentRoute);

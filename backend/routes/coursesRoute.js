@@ -39,13 +39,42 @@ router.post("/courses", (req, res) => {
 
 // Get all courses
 router.get("/courses", (req, res) => {
-  const sql = "SELECT * FROM courses";
-  pool.query(sql, (err, result) => {
-    if (err) {
-      console.error("Error fetching courses:", err);
-      return res.status(500).json({ error: "Error fetching courses" });
+  let { offset, limit } = req.query;
+  // Query to get the total count of records
+  let countQuery = "SELECT COUNT(*) as total_count FROM courses";
+
+  // Query to retrieve paginated data
+  let dataQuery =
+    "SELECT * FROM courses order by createdAt desc LIMIT ? OFFSET ?";
+
+  // Execute the count query to get the total count
+  pool.query(countQuery, (countErr, countResult) => {
+    if (countErr) {
+      console.log(countErr);
+      res.status(400).json(countErr);
+      return;
     }
-    res.status(200).json(result);
+
+    // Extract the total count from the countResult
+    const totalCount = countResult[0].total_count;
+
+    // Execute the data query with limit and offset
+    pool.query(
+      dataQuery,
+      [parseInt(limit), parseInt(offset)],
+      (dataErr, data) => {
+        if (dataErr) {
+          console.log(dataErr);
+          res.status(400).json(dataErr);
+        } else {
+          // Return the paginated data and total count as the response
+          res.status(200).json({
+            total_count: totalCount,
+            data: data,
+          });
+        }
+      }
+    );
   });
 });
 

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
+import { FaUniversity } from "react-icons/fa";
+import { PiStudentLight } from "react-icons/pi";
 import { Link } from "react-router-dom";
 const Sidebar = () => {
   const [selectedMenu, setSelectedMenu] = useState("Home");
@@ -20,6 +22,30 @@ const Sidebar = () => {
         >
           <AiOutlineHome size={30} color="white" className="mr-2" />
           <p className="hidden md:block text-xl">Home</p>
+        </Link>
+        <Link
+          to={"/students"}
+          className={`${
+            selectedMenu === "Students"
+              ? "flex items-center mt-4 bg-blue-500 text-white p-2 rounded-md cursor-pointer"
+              : "flex items-center mt-4 hover:bg-blue-500 hover:text-white p-2 rounded-md cursor-pointer"
+          }`}
+          onClick={() => setSelectedMenu("Students")}
+        >
+          <PiStudentLight size={30} color="white" className="mr-2" />
+          <p className="hidden md:block text-xl">Students</p>
+        </Link>
+        <Link
+          to={"/courses"}
+          className={`${
+            selectedMenu === "Courses"
+              ? "flex items-center mt-4 bg-blue-500 text-white p-2 rounded-md cursor-pointer"
+              : "flex items-center mt-4 hover:bg-blue-500 hover:text-white p-2 rounded-md cursor-pointer"
+          }`}
+          onClick={() => setSelectedMenu("Courses")}
+        >
+          <FaUniversity size={30} color="white" className="mr-2" />
+          <p className="hidden md:block text-xl">Courses</p>
         </Link>
         <Link
           to={"/profile"}

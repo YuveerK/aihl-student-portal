@@ -5,6 +5,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { AiOutlineSearch } from "react-icons/ai";
 import AddStudentModal from "./AddStudentModal";
 import { useNavigate, useNavigation } from "react-router-dom";
+
 const DataTable = () => {
   const [students, setStudents] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -13,6 +14,7 @@ const DataTable = () => {
     useState(false);
   const limit = 10;
   const navigate = useNavigate();
+
   useEffect(() => {
     getStudents();
   }, [offset]); // Trigger the effect whenever the offset value changes
@@ -44,6 +46,7 @@ const DataTable = () => {
     setIsAddStudentModalClicked(payload);
     await getStudents();
   };
+
   return (
     <div className="w-full p-8 h-fit">
       <div className="flex items-center justify-between">
@@ -71,80 +74,60 @@ const DataTable = () => {
           </button>
         </div>
       </div>
-      <div className=" h-[900px] overflow-x-auto">
-        <div className="w-full h-[80px]  flex items-center border-b-2 border-gray-300">
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1>First Name</h1>
-          </div>
 
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1>Last Name</h1>
-          </div>
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1>Email</h1>
-          </div>
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1>Primary Contact Number</h1>
-          </div>
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1>Created At</h1>
-          </div>
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1>Action</h1>
-          </div>
-          <div className="w-[16.66%] border-black h-full p-4 flex items-center font-bold text-white ">
-            <h1></h1>
-          </div>
-        </div>
-        {students.map((student, index) => (
-          <div className="w-full h-fit border-b border-gray-300 flex items-center hover:bg-gray-800">
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <h1>{student.firstName}</h1>
-            </div>
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <h1>{student.surname}</h1>
-            </div>
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <h1
-                style={{
-                  inlineSize: "90%",
-                  overflowWrap: "break-word",
-                  hyphens: "manual",
-                }}
-              >
-                {student.email}
-              </h1>
-            </div>
-
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <h1>{student.primaryContactDetails}</h1>
-            </div>
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <h1>{new Date(student.createdAt).toLocaleDateString()}</h1>
-            </div>
-
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <div className="flex items-center">
-                <BiEdit size={25} className="mr-4 text-green-500" />
-                <RiDeleteBin5Line size={25} className="text-red-500" />
-              </div>
-            </div>
-            <div className="w-[16.66%] border-black h-full p-4 flex items-center text-white">
-              <button
-                className="p-2 text-white bg-green-500 rounded-md ml-8 w-[100px]"
-                onClick={() => navigate("/view-student", { state: student })}
-              >
-                View
-              </button>
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse table-auto">
+          <thead>
+            <tr className="bg-gray-800 text-white">
+              <th className="w-[16.66%] p-4">First Name</th>
+              <th className="w-[16.66%] p-4">Last Name</th>
+              <th className="w-[16.66%] p-4">Email</th>
+              <th className="w-[16.66%] p-4">Primary Contact Number</th>
+              <th className="w-[16.66%] p-4">Created At</th>
+              <th className="w-[16.66%] p-4">Action</th>
+              <th className="w-[16.66%] p-4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {students.map((student, index) => (
+              <tr key={index} className="border-b hover:bg-gray-800 text-white">
+                <td className="w-[16.66%] p-4">{student.firstName}</td>
+                <td className="w-[16.66%] p-4">{student.surname}</td>
+                <td className="w-[16.66%] p-4" style={{ hyphens: "auto" }}>
+                  {student.email}
+                </td>
+                <td className="w-[16.66%] p-4">
+                  {student.primaryContactDetails}
+                </td>
+                <td className="w-[16.66%] p-4">
+                  {new Date(student.createdAt).toLocaleDateString()}
+                </td>
+                <td className="w-[16.66%] p-4">
+                  <div className="flex items-center">
+                    <BiEdit size={25} className="mr-4 text-green-500" />
+                    <RiDeleteBin5Line size={25} className="text-red-500" />
+                  </div>
+                </td>
+                <td className="w-[16.66%] p-4">
+                  <button
+                    className="p-2 text-white bg-green-500 rounded-md ml-8 w-[100px]"
+                    onClick={() =>
+                      navigate("/view-student", { state: student })
+                    }
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <div className="w-full flex items-center justify-end pr-8 ">
+
+      <div className="w-full flex items-center justify-end pr-8">
         <p className="mr-2 text-white">{`${offset + 1} - ${
           offset + students.length
         }`}</p>
-
         <p className="text-white">of {totalCount}</p>
         <div className="mx-8 flex items-center">
           <div
@@ -161,6 +144,7 @@ const DataTable = () => {
           </div>
         </div>
       </div>
+
       {isAddStudentModalClicked && (
         <AddStudentModal
           handleCloseAddStudentModal={handleCloseAddStudentModal}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import StudentDetails from "../../components/home/StudentDetails";
-import Documents from "../../components/home/Documents";
+import StudentDetails from "../../components/students/StudentDetails";
+import Documents from "../../components/students/Documents";
 
 const ViewStudent = () => {
   const [tabSelection, setTabSelection] = useState("Student Details");
